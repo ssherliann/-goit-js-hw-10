@@ -38,19 +38,18 @@ flatpickr("#datetime-picker", options);
 
 function updateButtonState() {
     startButton = document.querySelector('[data-start]');
-    const startButtonAvailable = startButton.disabled;
-    startButtonAvailable.classList.add("button-availibity");
 
     if (userSelectedDate && userSelectedDate > todayDate) {
-        startButtonAvailable = false;
+        startButton.disabled = false;
     } else {
-        startButtonAvailable = true;
-        iziToast.error ({
+        startButton.disabled = true;
+        iziToast.error({
             title: 'Error',
             message: 'Please choose a date in the future',
         });
     }
 };
+
 
 function convertMs(ms) {
     const second = 1000;
