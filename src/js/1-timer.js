@@ -1,7 +1,6 @@
 import "flatpickr/dist/flatpickr.min.css";
 
 const startButton = document.querySelector('[data-start]');
-const todayDate = new Date();
 let userSelectedDate;
 let difference;
 
@@ -28,14 +27,11 @@ startButton.addEventListener("click", () => {
     const intervalId = setInterval(() => {
         difference -= 1000;
         updateCountdown();
-        if (difference <= 0) {
-            clearInterval(intervalId);
-        }
     }, 1000);
 });
 
 function updateButtonState() {
-    if (userSelectedDate && userSelectedDate > todayDate) {
+    if (userSelectedDate && userSelectedDate > new Date()) {
         startButton.disabled = false;
     } else {
         startButton.disabled = true;
@@ -68,11 +64,19 @@ function updateCountdown() {
     const dataMinutes = document.querySelector('[data-minutes]');
     const dataSeconds = document.querySelector('[data-seconds]');
 
-    dataDays.textContent = addLeadingZero(days);
-    dataHours.textContent = addLeadingZero(hours);
-    dataMinutes.textContent = addLeadingZero(minutes);
-    dataSeconds.textContent = addLeadingZero(seconds);
+    if (difference <= 0) {
+        dataDays.textContent = "00";
+        dataHours.textContent = "00";
+        dataMinutes.textContent = "00";
+        dataSeconds.textContent = "00";
+    } else {
+        dataDays.textContent = addLeadingZero(days);
+        dataHours.textContent = addLeadingZero(hours);
+        dataMinutes.textContent = addLeadingZero(minutes);
+        dataSeconds.textContent = addLeadingZero(seconds);
+    }
 }
+
 
 function addLeadingZero(value) {
     return String(value).padStart(2, '0');
