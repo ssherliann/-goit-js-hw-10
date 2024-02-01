@@ -3,6 +3,7 @@ import "flatpickr/dist/flatpickr.min.css";
 const startButton = document.querySelector('[data-start]');
 let userSelectedDate;
 let difference;
+let intervalId; 
 
 const options = {
     enableTime: true,
@@ -24,9 +25,16 @@ const options = {
 flatpickr("#datetime-picker", options);
 
 startButton.addEventListener("click", () => {
-    const intervalId = setInterval(() => {
+    startButton.disabled = true;
+
+    intervalId = setInterval(() => {
         difference -= 1000;
         updateCountdown();
+
+        if (difference <= 0) {
+            clearInterval(intervalId); 
+            startButton.disabled = false; 
+        }
     }, 1000);
 });
 
